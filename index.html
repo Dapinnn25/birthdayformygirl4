@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f8f0e9">
+<meta name="description" content="A Little World Made Just for Abila — sebuah dunia kecil untuk merayakan kamu.">
+<title>A Little World Made Just for Abila</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Caveat:wght@500;600&display=swap');
+:root{--ivory:#fbf7f1;--cream:#f4e9df;--pink:#e9c5c5;--rose:#bd8188;--wine:#754b57;--gold:#c6a36a;--ink:#49363a;--muted:#8b7474;--paper:#fffaf4;--shadow:0 22px 70px #76545a1c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ivory);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #c99b9f;outline-offset:4px}
+#petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}.petal{position:absolute;top:-30px;width:10px;height:15px;border-radius:80% 10% 80% 10%;background:#d99da5a8;animation:fall linear forwards}
+@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(620deg);opacity:.15}}
+h1,h2,h3,p{margin-top:0}h1,h2,.serif{font-family:'Playfair Display',serif;font-weight:500}h1{font-size:clamp(2.6rem,7vw,5.7rem);line-height:1.05;letter-spacing:-.04em}h2{font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.12;letter-spacing:-.025em}p{line-height:1.85}.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);font-weight:700}.script{font-family:'Caveat',cursive;color:var(--rose);font-size:1.65rem}.muted{color:var(--muted)}
+.btn{border:0;border-radius:99px;padding:14px 24px;background:var(--wine);color:white;box-shadow:0 10px 24px #754b5728;transition:.25s;display:inline-flex;align-items:center;gap:10px}.btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px #754b5738}.btn.secondary{background:transparent;color:var(--wine);border:1px solid #bd818866;box-shadow:none}.btn.small{padding:10px 16px;font-size:.86rem}
+.screen{display:none;min-height:100svh;animation:appear .7s ease both}.screen.active{display:block}@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.center-screen{display:grid;place-items:center;padding:36px 22px;text-align:center;position:relative;overflow:hidden}
+.center-inner{width:min(850px,100%);position:relative;z-index:2}.ornament{position:absolute;color:#d4b5a2;opacity:.55;font-size:clamp(2rem,6vw,5rem);animation:sway 5s ease-in-out infinite}.ornament.one{top:10%;left:8%}.ornament.two{bottom:12%;right:8%;animation-delay:-2s}.ornament.three{top:20%;right:15%;font-size:2rem}@keyframes sway{50%{transform:translateY(-12px) rotate(10deg)}}
+.envelope-wrap{margin:35px auto 26px;width:min(330px,80vw);height:220px;position:relative;cursor:pointer;perspective:900px;filter:drop-shadow(0 18px 25px #80545a22)}.envelope{position:absolute;inset:0;background:#d9aeb0;border-radius:8px;overflow:visible}.env-front{position:absolute;inset:0;background:linear-gradient(145deg,#e9c9c6,#d49fa5);clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);z-index:3}.env-flap{position:absolute;inset:0;background:#edcfca;clip-path:polygon(0 0,100% 0,50% 60%);transform-origin:top;transition:transform .8s;z-index:4}.env-letter{position:absolute;left:8%;right:8%;height:86%;bottom:4%;background:#fffaf3;border-radius:4px;display:grid;place-items:center;color:var(--wine);font-family:'Playfair Display';font-size:1.3rem;transition:transform .8s;z-index:2}.envelope-wrap.open .env-flap{transform:rotateX(180deg);z-index:1}.envelope-wrap.open .env-letter{transform:translateY(-75px);transition-delay:.25s}.seal{position:absolute;z-index:5;left:50%;top:54%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--wine);color:#fff;display:grid;place-items:center;font-size:1.2rem;box-shadow:0 4px 12px #754b5740}
+.hero{background:radial-gradient(ellipse at 50% 40%,#f9e8e2 0%,#fbf7f1 58%,#f3e8df 100%)}.hero h1 span{color:var(--rose);font-style:italic}.hero-copy{max-width:650px;margin:0 auto 28px;font-size:1.06rem;color:#79666a}
+.topbar{position:sticky;top:0;z-index:15;background:#fbf7f1eF;backdrop-filter:blur(16px);border-bottom:1px solid #d9c4b54a;padding:12px clamp(16px,4vw,54px);display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-family:'Playfair Display';font-size:1.08rem;color:var(--wine)}.top-actions{display:flex;align-items:center;gap:10px}.icon-btn{border:1px solid #d8c1b7;background:#fffaf4;color:var(--wine);width:40px;height:40px;border-radius:50%;display:grid;place-items:center}
+.progress-shell{height:3px;background:#eadbd2;position:sticky;top:64px;z-index:14}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#bd8188,#c6a36a);transition:width .4s}
+.main-wrap{max-width:1100px;margin:auto;padding:70px 24px 90px}.section-head{text-align:center;max-width:760px;margin:0 auto 48px}.section-head p{color:var(--muted)}.chapter-kicker{font-family:'Caveat';font-size:1.45rem;color:var(--rose)}
+.hero-panel{min-height:calc(100svh - 110px);display:grid;place-items:center;text-align:center;padding:60px 20px;position:relative;background:radial-gradient(circle at 50% 55%,#f4dfd9,transparent 48%),var(--ivory);overflow:hidden}.hero-panel .hero-copy{max-width:720px}.hero-flower{font-size:clamp(3rem,10vw,7rem);display:inline-block;animation:bloom 4s ease-in-out infinite;filter:drop-shadow(0 12px 14px #bd81882a)}@keyframes bloom{0%,100%{transform:rotate(-5deg) scale(.96)}50%{transform:rotate(7deg) scale(1.06)}}
+.paper{background:var(--paper);padding:clamp(28px,6vw,65px);max-width:780px;margin:auto;box-shadow:var(--shadow);border:1px solid #e9d9cc;position:relative}.paper:before{content:"";position:absolute;inset:12px;border:1px solid #eadbd0;pointer-events:none}.paper p{position:relative;z-index:1}.letter-text{font-size:1.02rem}.letter-sign{font-family:'Caveat';font-size:1.8rem;color:var(--rose);text-align:right;margin-top:30px}
+.memory-layout{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;max-width:950px;margin:auto}.polaroid{background:#fff;padding:14px 14px 58px;box-shadow:0 20px 50px #66494b25;transform:rotate(-3deg);max-width:420px;margin:auto;transition:.5s}.polaroid:hover{transform:rotate(0) translateY(-7px)}.photo-frame{aspect-ratio:4/5;background:linear-gradient(145deg,#f2e4dc,#ead1ce);display:grid;place-items:center;overflow:hidden;position:relative}.photo-frame img{width:100%;height:100%;object-fit:contain;display:none;background:#f5eee8}.photo-placeholder{text-align:center;padding:25px;color:#987d7b}.photo-placeholder .camera{font-size:2.7rem;display:block;margin-bottom:12px}.polaroid-caption{text-align:center;font-family:'Caveat';font-size:1.55rem;color:#77545b;padding-top:12px}.upload-tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.upload-tools input{max-width:100%;font-size:.85rem}.note{font-size:.82rem;color:var(--muted);margin-top:10px}
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.love-card{min-height:210px;perspective:1000px;cursor:pointer}.card-inner{height:100%;min-height:210px;position:relative;transform-style:preserve-3d;transition:transform .65s}.love-card.flipped .card-inner{transform:rotateY(180deg)}.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 12px 35px #76545a12;border:1px solid #ead9d1}.card-front{background:linear-gradient(145deg,#fffaf5,#f5e6e1)}.card-back{background:#fffaf5;transform:rotateY(180deg);justify-content:center}.card-num{font-family:'Playfair Display';font-size:2.3rem;color:#d3a5a3}.card-icon{font-size:1.8rem}.card-title{font-family:'Playfair Display';font-size:1.12rem;color:var(--wine)}.card-hint{font-size:.75rem;color:var(--muted)}.card-back p{font-size:.91rem;line-height:1.7;margin:0}
+.comfort{background:linear-gradient(135deg,#f2e2dc,#fbf7f1 60%,#f1e4d6);border-radius:28px;padding:clamp(28px,6vw,65px);max-width:900px;margin:auto;text-align:center;position:relative;overflow:hidden}.hug-illustration{font-size:clamp(4rem,10vw,7rem);margin:10px auto 25px;display:block;animation:hug 3s ease-in-out infinite}@keyframes hug{50%{transform:scale(1.08)}}
+.activities{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.activity{border:1px solid #ead8d0;background:#fffaf5;border-radius:18px;padding:20px 15px;text-align:left;min-height:155px;transition:.25s;color:var(--ink)}.activity:hover,.activity.done{transform:translateY(-5px);background:#f6e8e3;border-color:#d6a9a8}.activity .emoji{font-size:1.8rem;display:block;margin-bottom:14px}.activity small{display:block;color:var(--rose);margin-top:10px}
+.wishes-scene{background:radial-gradient(ellipse at 50% 100%,#51465d,#25283f 80%);border-radius:28px;padding:50px 24px;color:#fff;text-align:center;position:relative;overflow:hidden;min-height:390px}.wishes-scene h2{color:#fff}.wishes-scene p{color:#e7dce5}.stars{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin:35px auto 0;max-width:650px}.star{background:none;border:0;color:#f6dca6;font-size:2.2rem;filter:drop-shadow(0 0 8px #ffe5a477);transition:.2s}.star:hover{transform:scale(1.35) rotate(18deg)}.wish-result{min-height:55px;margin:20px auto 0;max-width:600px;font-family:'Playfair Display';font-size:1.25rem;color:#ffe9bd}
+.final-garden{text-align:center;max-width:850px;margin:auto;padding:30px 0}.bloom-flower{font-size:clamp(5rem,16vw,10rem);display:inline-block;animation:finalBloom 5s ease-in-out infinite;filter:drop-shadow(0 18px 25px #bd81882b)}@keyframes finalBloom{0%,100%{transform:scale(.82) rotate(-8deg)}50%{transform:scale(1.08) rotate(8deg)}}
+.closing-lines{font-family:'Playfair Display';font-size:clamp(1.2rem,3vw,1.8rem);line-height:1.8;color:var(--wine)}.closing-lines p{margin:0}.closing-note{max-width:650px;margin:30px auto;color:var(--muted)}
+.chapter-nav{display:flex;justify-content:space-between;gap:12px;margin-top:60px;padding-top:22px;border-top:1px solid #e9d9d0}.chapter-nav button{min-width:120px}.footer{text-align:center;padding:30px;color:#9b8583;font-size:.8rem}
+.music-hint{font-size:.75rem;color:var(--muted)}#musicFile{display:none}
+.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);background:#754b57;color:#fff;padding:12px 18px;border-radius:99px;opacity:0;transition:.3s;z-index:50;font-size:.85rem;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){.cards-grid{grid-template-columns:repeat(2,1fr)}.activities{grid-template-columns:repeat(2,1fr)}.memory-layout{grid-template-columns:1fr;gap:35px}.memory-copy{text-align:center}.main-wrap{padding-top:52px}}
+@media(max-width:480px){.topbar{padding:10px 14px}.brand{font-size:.94rem}.top-actions{gap:6px}.icon-btn{width:36px;height:36px}.progress-shell{top:58px}.cards-grid{gap:10px}.love-card,.card-inner{min-height:220px}.card-face{padding:16px}.activities{gap:9px}.activity{padding:16px 13px;min-height:145px}.chapter-nav button{min-width:0;flex:1;padding:12px 14px}.main-wrap{padding-left:18px;padding-right:18px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="petals" aria-hidden="true"></div>
+<div class="topbar" id="topbar" style="display:none">
+  <div class="brand">A Little World <span style="color:var(--rose)">♡</span></div>
+  <div class="top-actions">
+    <button class="icon-btn" id="musicToggle" title="Putar atau jeda musik" aria-label="Putar atau jeda musik">♫</button>
+    <button class="icon-btn" id="soundToggle" title="Efek suara" aria-label="Aktifkan atau matikan efek suara">♪</button>
+  </div>
+</div>
+<div class="progress-shell" id="progressShell" style="display:none"><div class="progress-bar" id="progressBar"></div></div>
+
+<section class="screen active center-screen hero" id="welcome">
+ <span class="ornament one">✿</span><span class="ornament two">✧</span><span class="ornament three">♡</span>
+ <div class="center-inner">
+  <div class="eyebrow">Sebuah kejutan kecil untukmu</div>
+  <h1 style="margin:18px 0 12px">Hai, <span style="color:var(--rose);font-style:italic">Abila!</span></h1>
+  <p class="hero-copy">Ada sesuatu yang ingin aku tunjukkan kepadamu. Aku membuat sesuatu yang kecil, tetapi semoga bisa membuat harimu sedikit lebih indah.</p>
+  <div class="envelope-wrap" id="envelope" role="button" tabindex="0" aria-label="Buka amplop">
+   <div class="envelope"><div class="env-letter">Untuk Abila, dengan cinta ♡</div><div class="env-front"></div><div class="env-flap"></div><div class="seal">♡</div></div>
+  </div>
+  <button class="btn" id="openGift">Buka hadiah kecilmu <span>→</span></button>
+  <p class="script" style="margin-top:20px">Dibuat khusus untuk kamu.</p>
+ </div>
+</section>
+
+<div id="experience" style="display:none">
+<section class="screen active" id="birthday">
+ <div class="hero-panel">
+  <span class="ornament one">✿</span><span class="ornament two">✧</span><span class="ornament three">♡</span>
+  <div class="center-inner">
+   <div class="hero-flower">🌷</div>
+   <div class="eyebrow">Hari spesial seseorang yang spesial</div>
+   <h1>Selamat Ulang Tahun,<br><span style="color:var(--rose);font-style:italic">Abila!</span></h1>
+   <p class="hero-copy">Untuk perempuan yang selalu punya cara tersendiri untuk membuat hari-hariku lebih berwarna.</p>
+   <p style="max-width:690px;margin:0 auto 30px">Hari ini bukan hanya tentang bertambahnya usiamu. Hari ini adalah tentang merayakan seseorang yang keberadaannya begitu berarti.</p>
+   <button class="btn" data-go="letter">Ada beberapa hal yang ingin kusampaikan <span>↓</span></button>
+  </div>
+ </div>
+ <div class="footer">Gulir dan temukan dunia kecil yang disiapkan untukmu ♡</div>
+</section>
+
+<section class="screen" id="letter">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">sedikit dari hati</div><h2>Sepucuk Surat<br><i>Untukmu</i></h2><p>Ada beberapa hal yang ingin aku pastikan selalu kamu ingat.</p></div>
+  <article class="paper">
+   <div class="eyebrow" style="margin-bottom:24px">Untuk Abila tersayang</div>
+   <div class="letter-text">
+    <p><strong>Selamat ulang tahun, sayang.</strong></p>
+    <p>Aku mungkin tidak selalu bisa menemukan kata-kata yang tepat untuk menjelaskan betapa berharganya dirimu. Tapi ada beberapa hal yang ingin aku pastikan selalu kamu ingat.</p>
+    <p>Aku ingin kamu tahu bahwa kamu layak dicintai, dihargai, diperhatikan, dan dirayakan. Bukan hanya ketika kamu sedang bahagia, bukan hanya ketika semuanya berjalan baik, tetapi juga ketika kamu sedang lelah dan merasa dunia tidak berpihak kepadamu.</p>
+    <p>Aku ingin kamu tahu bahwa kamu tidak sendiri. Kamu punya seseorang yang peduli kepadamu, yang ingin mendengarkan ceritamu, menemanimu mencoba hal-hal baru, dan melihatmu tumbuh menjadi seseorang yang semakin bahagia.</p>
+    <p>Aku tidak berharap kamu selalu kuat. Kamu boleh lelah, boleh manja, boleh menangis, dan boleh menjadi dirimu sendiri.</p>
+    <p>Aku ingin mengenal lebih banyak sisi dirimu, menjalani lebih banyak cerita bersamamu, dan mencoba banyak hal baru yang belum pernah kita lakukan.</p>
+    <p>Terima kasih sudah lahir, Abila.</p>
+    <p>Aku harap dunia selalu punya banyak hal baik untukmu.</p>
+   </div>
+   <div class="letter-sign">Dengan sayang, ♡</div>
+  </article>
+  <div class="chapter-nav"><button class="btn secondary" data-go="birthday">← Sebelumnya</button><button class="btn" data-go="memory">Lanjutkan →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="memory">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">satu momen yang kusimpan</div><h2>Awal Kecil <i>Cerita Kita</i></h2><p>Satu tempat, satu keberanian kecil, dan satu kenangan yang berarti.</p></div>
+  <article class="paper" style="max-width:820px;text-align:center">
+   <div class="eyebrow" style="margin-bottom:18px">Yamas Sky View</div>
+   <h2 style="font-size:2.5rem">Sebuah awal yang manis.</h2>
+   <p>Lucu rasanya mengingat hari itu. Tempat ketika aku memberanikan diri untuk mengatakan apa yang selama ini aku rasakan.</p>
+   <p>Aku tidak tahu bagaimana cerita kita akan berjalan setelah hari itu. Tetapi aku bersyukur karena keberanian kecilku membawaku sampai ke sini.</p>
+   <p>Dan sekarang, aku punya lebih banyak alasan untuk tersenyum setiap kali mengingatnya.</p>
+   <div class="letter-sign">Yamas Sky View ♡</div>
+  </article>
+  <div class="chapter-nav"><button class="btn secondary" data-go="letter">← Sebelumnya</button><button class="btn" data-go="love">Lihat hal-hal yang kusuka →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="love">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">delapan hal, dan masih banyak lagi</div><h2>Hal-Hal yang Aku<br><i>Suka Darimu</i></h2><p>Sentuh setiap kartu. Ada pesan kecil yang kusimpan di baliknya.</p></div>
+  <div class="cards-grid" id="loveCards"></div>
+  <div class="chapter-nav"><button class="btn secondary" data-go="memory">← Sebelumnya</button><button class="btn" data-go="comfort">Lanjutkan →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="comfort">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">sebuah pengingat kecil</div><h2>Kamu Tidak <i>Sendirian</i></h2></div>
+  <div class="comfort">
+   <div class="eyebrow">Baca ini kapan pun kamu perlu</div>
+   <span class="hug-illustration" aria-hidden="true">🧸♡🧸</span>
+   <h2 style="font-size:2.35rem">Hey, sayang.<br>Ada sesuatu yang ingin aku ingatkan.</h2>
+   <p style="font-family:'Playfair Display';font-size:1.55rem;color:var(--wine);margin:20px 0">Jangan pernah merasa bahwa kamu sendirian.<br><strong>Kamu punya aku.</strong></p>
+   <p>Kalau suatu hari kamu merasa kesulitan untuk memulai percakapan dengan seseorang, jangan merasa bahwa semuanya harus selalu dimulai darimu.</p>
+   <p>Kamu tidak harus selalu menjadi orang yang menghubungi lebih dulu. Aku juga bisa mencarimu, memulai percakapan, dan menanyakan kabarmu.</p>
+   <p>Aku tidak ingin kamu memaksakan dirimu hanya supaya bisa diterima oleh orang lain.</p>
+   <p>Kamu tetap boleh mencoba berteman, mengenal orang-orang baru, dan membangun hubungan baik dengan siapa pun. Jangan menutup dirimu dari dunia.</p>
+   <p>Tapi ingat, kamu juga tidak perlu memaksakan sesuatu yang membuatmu tidak nyaman.</p>
+   <p>Aku ingin menjadi seseorang yang bisa kamu ajak bercerita, seseorang yang bisa kamu cari, dan seseorang yang akan berusaha hadir ketika kamu membutuhkannya.</p>
+   <div class="script">Pelan-pelan saja, ya. Aku di sini. ♡</div>
+  </div>
+  <div class="chapter-nav"><button class="btn secondary" data-go="love">← Sebelumnya</button><button class="btn" data-go="adventure">Masih ada cerita →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="adventure">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">daftar kecil untuk masa depan</div><h2>Masih Banyak Cerita<br><i>yang Belum Kita Buat.</i></h2><p>Ketuk aktivitas yang ingin kamu lakukan. Kita kumpulkan ide-ide kecil untuk nanti.</p></div>
+  <div class="activities" id="activities"></div>
+  <p id="activityCount" class="script" style="text-align:center;margin-top:25px">Belum ada yang dicentang — pilih yang menarik hatimu ♡</p>
+  <p style="max-width:760px;text-align:center;margin:40px auto 0">Aku tidak tahu akan ada berapa banyak cerita yang bisa kita buat ke depannya. Tapi aku masih ingin mencoba banyak hal bersamamu. Tidak harus selalu sesuatu yang besar. Bahkan hal-hal sederhana pun akan terasa menyenangkan kalau dilakukan bersamamu.</p>
+  <div class="chapter-nav"><button class="btn secondary" data-go="comfort">← Sebelumnya</button><button class="btn" data-go="wishes">Buka doa-doaku →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="wishes">
+ <main class="main-wrap">
+  <div class="section-head"><div class="chapter-kicker">titipan harapan untukmu</div><h2>Doa-Doa <i>Kecilku</i></h2><p>Klik bintang-bintang di bawah. Masing-masing menyimpan satu harapan baik untukmu.</p></div>
+  <div class="wishes-scene">
+   <div style="font-size:2.3rem;margin-bottom:15px">☾ ✧</div>
+   <h2 style="font-size:2.4rem">Untuk semua hal baik<br>yang menunggumu.</h2>
+   <p>Pilih satu bintang untuk membuka sebuah doa.</p>
+   <div class="stars" id="stars"></div>
+   <div class="wish-result" id="wishResult" aria-live="polite">Ada banyak hal baik yang ingin aku doakan untukmu. ✨</div>
+  </div>
+  <div class="chapter-nav"><button class="btn secondary" data-go="adventure">← Sebelumnya</button><button class="btn" data-go="ending">Satu hal terakhir →</button></div>
+ </main>
+</section>
+
+<section class="screen" id="ending">
+ <main class="main-wrap">
+  <div class="final-garden">
+   <div class="chapter-kicker">sebelum dunia kecil ini selesai</div>
+   <div class="bloom-flower">🌸</div>
+   <h2>Dan sebelum kamu menutup halaman ini, ada satu hal lagi yang ingin aku sampaikan.</h2>
+   <div class="closing-lines" style="margin:35px 0">
+    <p>Kamu layak dicintai.</p><p>Kamu layak dihargai.</p><p>Kamu layak diperhatikan.</p><p>Kamu layak mendapatkan hal-hal baik.</p><p>Kamu layak dirayakan, bahkan pada hari-hari ketika kamu merasa tidak melakukan sesuatu yang istimewa.</p>
+   </div>
+   <p class="closing-note">Jangan pernah merasa bahwa kamu harus menjadi sempurna untuk pantas mendapatkan kasih sayang. Bagiku, menjadi dirimu sendiri sudah lebih dari cukup.</p>
+   <div style="height:1px;background:#e5d2c7;max-width:180px;margin:35px auto"></div>
+   <div class="eyebrow">dengan penuh cinta</div>
+   <h2 style="color:var(--rose)">Selamat ulang tahun,<br>Abila.</h2>
+   <p style="font-family:'Caveat';font-size:1.8rem;color:var(--wine)">Aku ingin yang terbaik untukmu, selalu. ♡</p>
+   <p class="muted" style="margin-top:35px">Terima kasih sudah menjelajahi dunia kecil ini.</p>
+   <button class="btn secondary" id="restart">Ulangi dari awal ↺</button>
+  </div>
+ </main>
+ <div class="footer">Dibuat dengan banyak cinta, khusus untuk Abila ♡</div>
+</section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<audio id="bgMusic" loop></audio>
+<input id="musicFile" type="file" accept="audio/*">
+<script>
+const chapters=['birthday','letter','memory','love','comfort','adventure','wishes','ending'];
+let current=0, soundOn=true, musicUrl=null;
+const $=s=>document.querySelector(s);
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function petals(n=18){const box=$('#petals');for(let i=0;i<n;i++){const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.animationDuration=(6+Math.random()*7)+'s';p.style.animationDelay=(Math.random()*2)+'s';p.style.setProperty('--drift',(Math.random()*180-90)+'px');p.style.opacity=.3+Math.random()*.5;box.appendChild(p);setTimeout(()=>p.remove(),15000)}}
+function showChapter(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const target=document.getElementById(id);target.classList.add('active');current=chapters.indexOf(id);$('#progressBar').style.width=((current+1)/chapters.length*100)+'%';window.scrollTo({top:0,behavior:'smooth'});petals(10)}
+function openExperience(){const env=$('#envelope');env.classList.add('open');petals(35);setTimeout(()=>{$('#welcome').classList.remove('active');$('#welcome').style.display='none';$('#experience').style.display='block';$('#topbar').style.display='flex';$('#progressShell').style.display='block';showChapter('birthday')},900)}
+$('#openGift').addEventListener('click',openExperience);$('#envelope').addEventListener('click',openExperience);$('#envelope').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openExperience()}});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)showChapter(b.dataset.go)});
+const appreciations=[
+['☀️','Your Cheerful Personality','Salah satu hal yang aku suka darimu adalah keceriaanmu. Aku suka melihatmu tersenyum, tertawa, dan menikmati hal-hal kecil. Ada sesuatu dari dirimu yang membuat suasana terasa lebih hidup.'],
+['🌷','Your Beautiful Face','Aku suka wajahmu. Aku suka bagaimana lucu dan cantiknya kamu. Bahkan terkadang aku hanya ingin melihat wajahmu lebih lama dan berpikir, kok bisa ada seseorang secantik ini?'],
+['♡','Your Kind Heart','Aku suka bagaimana kamu memikirkan orang lain. Aku suka caramu peduli, caramu memperhatikan orang-orang di sekitarmu, dan bagaimana kamu bisa begitu baik kepada orang lain.'],
+['✧','Your Mature Side','Aku suka sisi dewasamu. Caramu berpikir, caramu memahami sesuatu, dan bagaimana kamu menghadapi berbagai hal. Ada banyak hal darimu yang membuatku kagum.'],
+['🐣','Your Childish Side','Tapi aku juga suka sisi kekanak-kanakanmu. Sisi dirimu yang lucu, spontan, terkadang manja, dan membuatku ingin ikut tertawa. Kamu tidak harus selalu menjadi dewasa di hadapanku.'],
+['☕','Your Caring Side','Aku suka ketika kamu memperhatikanku. Ketika kamu bertanya apakah aku baik-baik saja, menawarkan bantuan, atau sekadar memastikan aku tidak sedang kesulitan. Hal-hal kecil seperti itu berarti banyak untukku.'],
+['💗','Your Affection','Aku suka sentuhan-sentuhan kecil darimu. Pelukanmu, ciumanmu, caramu mendekat kepadaku, bahkan gigitan kecilmu yang terkadang tiba-tiba. Hal sederhana seperti itu selalu berhasil membuatku merasa disayangi.'],
+['🌼','All The Sides Of You','Aku suka semua sisi dirimu. Ketika kamu dewasa, ketika kamu kekanak-kanakan, ketika kamu menjadi sosok yang penuh perhatian, ketika kamu manja, dan ketika kamu hanya ingin menjadi dirimu sendiri. Aku tidak ingin kamu merasa harus menjadi satu versi tertentu untuk membuatku bahagia.']
+];
+$('#loveCards').innerHTML=appreciations.map((c,i)=>`<article class="love-card" tabindex="0" role="button" aria-label="Buka kartu ${c[1]}"><div class="card-inner"><div class="card-face card-front"><div><span class="card-num">0${i+1}</span><span class="card-icon" style="float:right">${c[0]}</span></div><div><div class="card-title">${c[1]}</div><div class="card-hint">Ketuk untuk membuka ♡</div></div></div><div class="card-face card-back"><p>${c[2]}</p></div></div></article>`).join('');
+document.querySelectorAll('.love-card').forEach(card=>{const flip=()=>card.classList.toggle('flipped');card.addEventListener('click',flip);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}})});
+const activityData=[['🍜','Mencoba makanan yang belum pernah kita coba.'],['🗺️','Mengunjungi tempat baru.'],['🎬','Menonton film bersama.'],['🚗','Pergi ke tempat yang belum pernah kita kunjungi.'],['🥣','Memasak sesuatu bersama.'],['🎨','Mencoba aktivitas yang belum pernah kita lakukan.'],['📸','Membuat lebih banyak kenangan sederhana.'],['🎈','Melakukan hal-hal spontan bersama.']];
+$('#activities').innerHTML=activityData.map((a,i)=>`<button class="activity" type="button" aria-pressed="false"><span class="emoji">${a[0]}</span>${a[1]}<small>♡ Masukkan ke daftar kita</small></button>`).join('');
+document.querySelectorAll('.activity').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.toggle('done');btn.setAttribute('aria-pressed',btn.classList.contains('done'));btn.querySelector('small').textContent=btn.classList.contains('done')?'✓ Masuk daftar kita':'♡ Masukkan ke daftar kita';const n=document.querySelectorAll('.activity.done').length;$('#activityCount').textContent=n?`${n} ide masuk daftar cerita kita. Nanti kita wujudkan satu-satu, ya ♡`:'Belum ada yang dicentang — pilih yang menarik hatimu ♡'}));
+const wishes=['Semoga kamu selalu sehat, punya energi untuk menjalani hari, dan tidak lupa istirahat saat lelah.','Semoga semua impianmu dipermudah jalannya, satu per satu, dengan cara yang baik.','Semoga pendidikan dan setiap perjuanganmu membuahkan hasil yang bikin kamu bangga.','Semoga kamu selalu dikelilingi orang-orang baik yang tulus menghargai dirimu.','Semoga kamu semakin mengenal, menerima, dan menyayangi dirimu sendiri.','Semoga selalu ada alasan kecil maupun besar yang membuatmu bahagia.','Semoga kamu tidak kehilangan semangat untuk mengejar hal-hal yang kamu inginkan.'];
+$('#stars').innerHTML=wishes.map((w,i)=>`<button class="star" type="button" aria-label="Buka doa ${i+1}" data-wish="${i}">✦</button>`).join('');
+document.querySelectorAll('.star').forEach(b=>b.addEventListener('click',()=>{$('#wishResult').textContent=wishes[Number(b.dataset.wish)];b.textContent='✧';b.style.color='#fff4d5'}));
+$('#restart').addEventListener('click',()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('#experience').style.display='none';$('#topbar').style.display='none';$('#progressShell').style.display='none';$('#welcome').style.display='grid';$('#welcome').classList.add('active');$('#envelope').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'})});
+// Optional local music file. No autoplay and no bundled copyrighted track.
+$('#musicToggle').addEventListener('click',()=>{const audio=$('#bgMusic');if(audio.src){if(audio.paused){audio.play().then(()=>$('#musicToggle').textContent='Ⅱ').catch(()=>toast('Musik belum bisa diputar.'))}else{audio.pause();$('#musicToggle').textContent='♫'}}else{$('#musicFile').click()}});
+$('#musicFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(musicUrl)URL.revokeObjectURL(musicUrl);musicUrl=URL.createObjectURL(file);const audio=$('#bgMusic');audio.src=musicUrl;audio.play().then(()=>$('#musicToggle').textContent='Ⅱ').catch(()=>toast('Tekan tombol musik untuk memulai.'))});
+$('#soundToggle').addEventListener('click',()=>{soundOn=!soundOn;$('#soundToggle').style.opacity=soundOn?'1':'.45';toast(soundOn?'Efek interaksi aktif.':'Efek interaksi dimatikan.')});
+petals(12);
+</script>
+</body>
+</html>
